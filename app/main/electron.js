@@ -7,6 +7,9 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    webPreferences: {
+      nodeIntegration: true, // 注入node模块
+    },
   });
 
   win.loadFile(path.join(__dirname, "./index.html"));
