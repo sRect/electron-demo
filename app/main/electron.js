@@ -1,5 +1,6 @@
 // import { app, BrowserWindow } from "electron";
 const { app, BrowserWindow } = require("electron");
+const path = require("path");
 
 // https://www.electronjs.org/docs/tutorial/quick-start
 function createWindow() {
@@ -8,7 +9,7 @@ function createWindow() {
     height: 600,
   });
 
-  win.loadFile("./index.html");
+  win.loadFile(path.join(__dirname, "./index.html"));
   // win.loadURL("./index.html");
 }
 
