@@ -4,7 +4,10 @@
   "description": "",
   "main": "./app/main/electron.js",
   "scripts": {
-    "start": "electron ."
+    "preinstall": "node ./scripts/checkYarn.js",
+    "preelectron": "cross-env START_ENV=main webpack --progress",
+    "electron": "electron ./dist/electron.js",
+    "start:render": "cross-env START_ENV=render webpack serve --progress"
   },
   "keywords": [],
   "author": "",
@@ -31,9 +34,14 @@
     "@babel/preset-react": "^7.14.5",
     "@babel/preset-typescript": "^7.15.0",
     "babel-loader": "^8.2.2",
+    "chalk": "^4.1.2",
     "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "cross-env": "^7.0.3",
     "electron": "^15.0.0",
+    "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^5.3.2",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "webpack": "^5.58.1",
     "webpack-build-notifier": "^2.3.0",
     "webpack-cli": "^4.9.0",
