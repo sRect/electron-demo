@@ -4,27 +4,30 @@ const path = require("path");
 const rootDir = process.cwd();
 
 function isDev() {
-	// 👉 还记得我们配置中通过 webpack.DefinePlugin 定义的构建变量吗
 	return process.env.NODE_ENV === "development";
 }
 
 // https://www.electronjs.org/docs/tutorial/quick-start
 function createWindow() {
-	const win = new BrowserWindow({
+	const mainWindow = new BrowserWindow({
 		width: 800,
 		height: 600,
 		webPreferences: {
 			nodeIntegration: true, // 注入node模块
+			contextIsolation: false,
 			devTools: true,
 		},
 	});
 
-	// win.loadURL("./index.html");
-	// win.loadFile(path.join(__dirname, "./index.html"));
+	// mainWindow.loadURL("./index.html");
+	// mainWindow.loadFile(path.join(__dirname, "./index.html"));
 
 	isDev()
-		? win.loadURL(`http://127.0.0.1:7001`)
-		: win.loadURL(`file://${path.join(rootDir, "dist/index.html")}`);
+		? mainWindow.loadURL(`http://127.0.0.1:7001`)
+		: mainWindow.loadURL(`file://${path.join(rootDir, "dist/index.html")}`);
+
+	// 打开开发工具
+	isDev() && mainWindow.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {

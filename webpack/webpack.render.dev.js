@@ -32,7 +32,7 @@ module.exports = {
 		compress: true,
 		// open: true,
 		hot: true,
-		// historyApiFallback: true,
+		historyApiFallback: true,
 		// stats: 'errors-only', // 终端仅打印 error
 		// proxy: {}
 	},
