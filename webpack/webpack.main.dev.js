@@ -7,7 +7,7 @@ module.exports = {
 	devtool: "inline-source-map",
 	// https://webpack.docschina.org/configuration/target/
 	target: "electron-main",
-	entry: path.resolve(rootDir, "app/main/electron.js"),
+	entry: path.resolve(rootDir, "app/main/electron.ts"),
 	output: {
 		path: path.resolve(rootDir, "dist"),
 		filename: "electron.js",
