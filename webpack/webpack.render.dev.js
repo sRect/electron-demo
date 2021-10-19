@@ -13,6 +13,32 @@ module.exports = {
     filename: '[name].[fullhash:8].js',
     clean: true,
   },
+  module: {
+    rules: [
+      // {
+      //   test: /\.css$/i,
+      //   use: ['style-loader', 'css-loader', 'postcss-loader'],
+      // },
+      {
+        test: /\.(le|c)ss/i,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            // 解决 css 命名混乱和冲突
+            options: {
+              importLoaders: 2,
+              modules: {
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+              },
+            },
+          },
+          'postcss-loader',
+          'less-loader',
+        ],
+      },
+    ],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'webpack5 + electron demo',

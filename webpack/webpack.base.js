@@ -22,6 +22,11 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
       },
+      // https://webpack.docschina.org/guides/asset-modules/
+      {
+        test: /\.(png|jpg|gif|jpeg|webp|svg|eot|ttf|woff|woff2)$/,
+        type: 'asset',
+      },
     ],
   },
   plugins: [
