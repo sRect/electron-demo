@@ -7,7 +7,7 @@ module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   target: 'electron-renderer',
-  entry: path.resolve(rootDir, 'app/renderer/app.tsx'),
+  entry: path.resolve(rootDir, 'app/renderer/index.tsx'),
   output: {
     path: path.resolve(rootDir, 'dist'),
     filename: '[name].[fullhash:8].js',

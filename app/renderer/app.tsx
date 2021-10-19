@@ -1,32 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { Suspense } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import Title from './components/Title';
+import routes from './routes';
 
 function App() {
-  const data = {
-    text: 'test props',
-    styles: {
-      color: 'red',
-      fontSize: 20,
-    },
-  };
-
   return (
-    <Router>
-      <Switch>
-        <Route
-          path="/"
-          render={() => (
-            <div>
-              <h1>Electron + React</h1>
-              <Title {...data} />
-            </div>
-          )}
-        />
-      </Switch>
-    </Router>
+    <Suspense fallback={<div>loading...</div>}>
+      <Router>
+        <Switch>
+          {routes.map((route) => {
+            const { path, exact, component } = route;
+            return <Route key={path} path={path} exact={exact} component={component} />;
+          })}
+        </Switch>
+      </Router>
+    </Suspense>
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+export default App;
