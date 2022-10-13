@@ -6,6 +6,7 @@ const rootDir = process.cwd();
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
+  // 编译为 Electron 渲染进程
   target: 'electron-renderer',
   entry: path.resolve(rootDir, 'app/renderer/index.tsx'),
   output: {

@@ -7,6 +7,10 @@ const Home = () => {
       home component
       <br />
       <Link to="/foo">goto foo</Link>
+      <br />
+      <Link to="/openBrowser">gotoOpenBrowser</Link>
+      <br />
+      <Link to="/readFile">gotoReadFile</Link>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 // import { app, BrowserWindow } from "electron";
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const rootDir = process.cwd();
 
@@ -15,6 +15,7 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true, // 注入node模块
       contextIsolation: false,
+      preload: path.join(rootDir, 'app/main/preload.js'),
       devTools: true,
     },
   });
@@ -42,5 +43,13 @@ app.whenReady().then(() => {
   // 关闭所有窗口时退出应用 (Windows & Linux)
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
+  });
+
+  // 监听渲染进程发的消息并回复
+  ipcMain.on('get-root-path', (event, arg) => {
+    // 为什么要../
+    // 因为app.getAppPath获取到的是dist目录
+    const rootPath = path.join(app.getAppPath(), '../');
+    event.reply('reply-root-path', rootPath);
   });
 });

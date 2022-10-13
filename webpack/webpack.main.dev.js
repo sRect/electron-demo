@@ -5,6 +5,7 @@ const rootDir = process.cwd();
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
+  // 编译为 Electron 主进程
   // https://webpack.docschina.org/configuration/target/
   target: 'electron-main',
   entry: path.resolve(rootDir, 'app/main/electron.ts'),
