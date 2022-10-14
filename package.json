@@ -1,23 +1,43 @@
 {
   "name": "electron_demo",
   "version": "1.0.0",
-  "description": "",
-  "main": "./app/main/electron.js",
+  "description": "first electron demo",
+  "main": "./dist/electron.js",
   "scripts": {
     "preinstall": "node ./scripts/checkYarn.js",
     "preelectron": "cross-env START_ENV=main webpack --progress",
     "electron": "electron ./dist/electron.js",
-    "start:render": "cross-env START_ENV=render webpack serve --progress"
+    "start:render": "cross-env START_ENV=render webpack serve --progress",
+    "start": "npm run start:render && npm run electron",
+    "build:main": "cross-env NODE_ENV=production npm run preelectron",
+    "build:render": "cross-env NODE_ENV=production START_ENV=render webpack --progress",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "prebuild": "rm -rf ./dist",
+    "build": "npm run build:render && npm run build:main && npm run pack",
+    "postbuild": "echo electron打包完成"
   },
-  "keywords": [],
-  "author": "",
+  "build": {
+    "appId": "demo.electronReact",
+    "productName": "electronReact",
+    "copyright": "Copyright © 2022 ${author}",
+    "files": [
+      "dist/**/*",
+      "package.json",
+      "node_modules/"
+    ]
+  },
+  "keywords": [
+    "electron",
+    "react"
+  ],
+  "author": "srect",
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.15.4",
     "@babel/runtime-corejs3": "^7.15.4",
     "core-js": "^3.18.2",
-    "electron": "^15.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router": "^5.2.1",
@@ -47,6 +67,8 @@
     "copy-webpack-plugin": "^9.0.1",
     "cross-env": "^7.0.3",
     "css-loader": "^6.4.0",
+    "electron": "15.2.0",
+    "electron-builder": "^23.6.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
