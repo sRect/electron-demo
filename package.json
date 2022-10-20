@@ -13,8 +13,10 @@
     "build:render": "cross-env NODE_ENV=production START_ENV=render webpack --progress",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
-    "prebuild": "rm -rf ./dist",
-    "build": "npm run build:render && npm run build:main && npm run pack",
+    "dist:win": "electron-builder --win --x64",
+    "prebuild": "rm -rf ./dist && rm -rf ./build",
+    "build": "npm run build:render && npm run build:main && npm run dist",
+    "build:win": "npm run prebuild && npm run build:render && npm run build:main && npm run dist:win && npm run postbuild",
     "postbuild": "echo electron打包完成"
   },
   "build": {
@@ -25,7 +27,38 @@
       "dist/**/*",
       "package.json",
       "node_modules/"
-    ]
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "build"
+    },
+    "mac": {
+      "icon": "app/renderer/favicon.ico",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    }
   },
   "keywords": [
     "electron",

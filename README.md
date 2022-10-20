@@ -20,3 +20,9 @@ npm run build
 # npm run build:main // 主进程打包
 # npm run pack // electron打包
 ```
+
+## mac 上打包 exe
+
+```
+npm run build:win
+```
