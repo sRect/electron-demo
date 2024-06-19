@@ -8,7 +8,14 @@ const OpenBrowser = lazy(() => import('@/views/OpenBrowser'));
 const ResultPage = lazy(() => import('@/views/ResultPage'));
 const ReadFile = lazy(() => import('@/views/ReadFile'));
 
-const routes = [
+type RoutesTypes = {
+  path: string;
+  exact?: boolean;
+  component?: any;
+  render?: () => {}
+}
+
+const routes:RoutesTypes[]= [
   {
     path: '/',
     exact: true,
