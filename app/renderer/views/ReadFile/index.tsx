@@ -6,7 +6,7 @@ interface IProps {
 }
 
 const ReadFile: FC<IProps> = () => {
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState<string>('');
 
   const handleReadFile = async (): Promise<void> => {
     if (content) return;

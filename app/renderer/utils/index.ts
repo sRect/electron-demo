@@ -24,3 +24,8 @@ export const getAppPath = () => {
     });
   });
 };
+
+export const showErrorBox = (message:string) => {
+  // 向主进程发送
+  ipcRenderer.send('showErrorBox', message);
+}

@@ -7,12 +7,13 @@ import Foo from '@/views/Foo';
 const OpenBrowser = lazy(() => import('@/views/OpenBrowser'));
 const ResultPage = lazy(() => import('@/views/ResultPage'));
 const ReadFile = lazy(() => import('@/views/ReadFile'));
+const Todolist = lazy(() => import('@/views/Todolist'));
 
 type RoutesTypes = {
   path: string;
   exact?: boolean;
-  component?: any;
-  render?: () => {}
+  component?: React.FC;
+  render?: React.FC
 }
 
 const routes:RoutesTypes[]= [
@@ -35,6 +36,11 @@ const routes:RoutesTypes[]= [
     path: '/readFile',
     exact: true,
     component: ReadFile,
+  },
+  {
+    path: '/todolist',
+    exact: true,
+    component: Todolist
   },
   {
     path: '/result/:code',

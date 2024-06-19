@@ -1,5 +1,5 @@
 // import { app, BrowserWindow } from "electron";
-const { app, BrowserWindow, ipcMain, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, globalShortcut, dialog } = require('electron');
 const path = require('path');
 // const rootDir = process.cwd();
 
@@ -69,6 +69,10 @@ app.whenReady().then(() => {
     // 因为app.getAppPath获取到的是dist目录
     const rootPath = path.join(app.getAppPath(), '../');
     event.reply('reply-root-path', rootPath);
+  });
+
+  ipcMain.on('showErrorBox', (event, arg) => {
+    dialog.showErrorBox("提示", arg);
   });
 
   // 注册快捷键

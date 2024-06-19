@@ -11,6 +11,8 @@ const Home = () => {
       <Link to="/openBrowser">gotoOpenBrowser</Link>
       <br />
       <Link to="/readFile">gotoReadFile</Link>
+      <br />
+      <Link to="/todolist">gotoTodolist</Link>
     </div>
   );
 };
