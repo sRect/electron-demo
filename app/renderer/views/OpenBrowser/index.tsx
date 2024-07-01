@@ -1,16 +1,16 @@
 import React, { memo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { shell } from 'electron';
 
 const OpenBrowser = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleOpenBrowser = () => {
     shell.openExternal('https://baidu.com');
   };
 
   const gotoHome = () => {
-    history.push('/');
+    navigate('/');
   };
 
   return (

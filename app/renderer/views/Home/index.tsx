@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
-const Home = () => {
+const Home:React.FC = () => {
   return (
     <div>
-      home component
+      <Link to="/">回到首页</Link>
       <br />
       <Link to="/foo">goto foo</Link>
       <br />
@@ -12,7 +12,16 @@ const Home = () => {
       <br />
       <Link to="/readFile">gotoReadFile</Link>
       <br />
-      <Link to="/todolist">gotoTodolist</Link>
+      <Link to="/todolist" >gotoTodolist</Link>
+      <br />
+      <Link to="/loginReduxDemo" >loginReduxDemo</Link>
+      <br />
+      <Link to="/result/404">404</Link>
+      <br />
+      <Link to="/abc">error page</Link>
+      <br />
+
+      <Outlet />
     </div>
   );
 };

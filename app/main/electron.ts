@@ -1,5 +1,6 @@
 // import { app, BrowserWindow } from "electron";
 const { app, BrowserWindow, ipcMain, Menu, globalShortcut, dialog } = require('electron');
+import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 const path = require('path');
 // const rootDir = process.cwd();
 
@@ -84,4 +85,9 @@ app.whenReady().then(() => {
   app.on('will-quit', () => {
     globalShortcut.unregisterAll();
   });
+
+  // https://github.com/MarshallOfSound/electron-devtools-installer
+  installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS])
+    .then((name) => console.log(`redux added Extension:  ${name}`))
+    .catch((err) => console.log('readux an error occurred: ', err));
 });

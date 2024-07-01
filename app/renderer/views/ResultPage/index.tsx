@@ -1,21 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Result, Button } from "antd";
 
 interface IParams {
   code: string;
 }
 
-function ResultPage() {
-  const [code, setCode] = useState('404');
-  const params: IParams = useParams();
+type CodeConf = "success" | "error" | "info" | "warning" | "404" | "403" | "500";
+
+const ResultPage:React.FC = () => {
+  const navigate = useNavigate();
+  const [code, setCode] = useState<CodeConf>("404");
+  const params: Partial<IParams> = useParams();
 
   useEffect(() => {
-    setCode(params.code);
+    setCode(params.code as CodeConf);
   }, [params.code]);
 
   console.log(params);
 
-  return <div>当前code: {code}</div>;
+  return (
+    <Result
+      status={code}
+      title={code}
+      extra={<Button type="primary" onClick={() => navigate("/")}>Back Home</Button>}
+    />
+  );
 }
 
 export default ResultPage;

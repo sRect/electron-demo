@@ -1,21 +1,22 @@
 import React, { Suspense } from 'react';
-import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom';
-import routes from './routes';
+import { RouterProvider } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import {ConfigProvider} from "antd";
+import store from "@/store";
+import router from './router';
+import "./main.css";
+
+import zhCN from 'antd/locale/zh_CN';
 
 function App() {
   return (
-    <Suspense fallback={<div>loading...</div>}>
-      <Router>
-        <Link to="/">goto home</Link>
-        <br/>
-        <Switch>
-          {routes.map((route) => {
-            const { path, exact, component } = route;
-            return <Route key={path} path={path} exact={exact} component={component} />;
-          })}
-        </Switch>
-      </Router>
-    </Suspense>
+    <Provider store={store}>
+      <ConfigProvider locale={zhCN}>
+        <Suspense fallback={<div>loading...</div>}>
+            <RouterProvider router={router} />
+        </Suspense>
+      </ConfigProvider>
+    </Provider>
   );
 }
 

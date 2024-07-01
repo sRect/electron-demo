@@ -9,7 +9,7 @@ const Foo = () => {
       <br />
       <Title {...{ text: 'hello', styles: { color: 'blue' } }} />
       <br />
-      <Link to="/">goto home</Link>
+      <Link to="/" replace>goto home</Link>
     </div>
   );
 };
