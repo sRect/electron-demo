@@ -50,7 +50,7 @@ const LoginDemo: React.FC = () => {
   }, [storageUserName]);
   
   return (
-    <>
+    <div className="w-full">
       <Button type="primary" danger ghost onClick={handlePrintReduxPersistData}>测试打印redux持久化数据</Button>
       <br />
       <TextArea autoSize disabled value={persistData} />
@@ -97,7 +97,7 @@ const LoginDemo: React.FC = () => {
           </Button>
         </Form.Item>
       </Form>
-    </>
+    </div>
   );
 };
 

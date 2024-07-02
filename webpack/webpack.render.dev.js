@@ -23,6 +23,7 @@ module.exports = {
       // },
       {
         test: /\.(le|c)ss/i,
+				exclude: /tailwind\.css$/, // 这里排除tailwind.css文件
         use: [
           'style-loader',
           {
@@ -31,7 +32,7 @@ module.exports = {
             options: {
               importLoaders: 2,
               modules: {
-                localIdentName: '[name]__[local]--[hash:base64:5]',
+                localIdentName: '[name]__[local]--[hash:base64:5]', // 开启模块化并添加hash
               },
             },
           },
@@ -39,6 +40,10 @@ module.exports = {
           'less-loader',
         ],
       },
+			{
+				test: /tailwind\.css$/, // 单独匹配tailwindcss的样式文件
+				use: ['style-loader', 'css-loader', 'postcss-loader'] // 不开启css-loader的模块化特性
+			}
     ],
   },
   plugins: [

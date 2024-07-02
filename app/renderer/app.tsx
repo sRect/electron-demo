@@ -5,7 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import {ConfigProvider} from "antd";
 import store, {persistor} from "@/store";
 import router from './router';
-import "./main.css";
+import "./tailwind.css";
 
 import zhCN from 'antd/locale/zh_CN';
 
