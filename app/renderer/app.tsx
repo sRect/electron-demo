@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
-// import { PersistGate } from 'redux-persist/integration/react';
+import { PersistGate } from 'redux-persist/integration/react';
 import {ConfigProvider} from "antd";
-import store from "@/store";
+import store, {persistor} from "@/store";
 import router from './router';
 import "./main.css";
 
@@ -14,9 +14,9 @@ function App() {
     <Provider store={store}>
         <ConfigProvider locale={zhCN}>
           <Suspense fallback={<div>loading...</div>}>
-            {/* <PersistGate loading={null} persistor={persistor}> */}
-                <RouterProvider router={router} />
-              {/* </PersistGate> */}
+            <PersistGate loading={null} persistor={persistor}>
+              <RouterProvider router={router} />
+            </PersistGate>
           </Suspense>
         </ConfigProvider>
     </Provider>

@@ -1,8 +1,14 @@
-// import { app, BrowserWindow } from "electron";
-const { app, BrowserWindow, ipcMain, Menu, globalShortcut, dialog } = require('electron');
+import { app, BrowserWindow, ipcMain, Menu, globalShortcut, dialog } from 'electron';
 import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-const path = require('path');
+import path from 'path';
 // const rootDir = process.cwd();
+
+// https://github.com/sindresorhus/electron-store
+// electron-store不再提供CommonJS导出
+import Store from 'electron-store';
+// https://github.com/sindresorhus/electron-store/issues/212
+// 必须在主进程内调用静态方法initRenderer
+Store.initRenderer();
 
 function isDev() {
   return process.env.NODE_ENV === 'development';
@@ -32,6 +38,7 @@ function createWindow() {
       devTools: true,
     },
   });
+  const devtools = new BrowserWindow()
 
   // mainWindow.loadURL("./index.html");
   // mainWindow.loadFile(path.join(__dirname, "./index.html"));
@@ -45,7 +52,10 @@ function createWindow() {
   }
 
   // 打开开发工具
-  isDev() && mainWindow.webContents.openDevTools();
+  if (isDev()) {
+    mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
+  }
 
   return mainWindow;
 }

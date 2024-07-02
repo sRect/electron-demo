@@ -6,4 +6,6 @@ import App from './app';
 const container = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(container!);
 
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+
 root.render(<App />);

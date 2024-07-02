@@ -19,13 +19,13 @@
     //   }
     // ],
     "@babel/plugin-transform-runtime",
-    [
-      "@babel/plugin-transform-modules-commonjs", // 将 ECMAScript modules 转成 CommonJS.
-      {
-        "allowTopLevelThis": true,
-        "loose": true,
-        "lazy": true
-      }
-    ]
+    // [
+    //   "@babel/plugin-transform-modules-commonjs", // 将 ECMAScript modules 转成 CommonJS.
+    //   {
+    //     "allowTopLevelThis": true,
+    //     "loose": true,
+    //     "lazy": true
+    //   }
+    // ]
   ]
 }
