@@ -1,6 +1,6 @@
 ## electron demo
 
-![](https://img.shields.io/badge/electron-^15.0.0-blue.svg)
+![](https://img.shields.io/badge/electron-^31.1.0-blue.svg)
 
 ## 本地开发
 

@@ -5,6 +5,7 @@ import path from 'path';
 
 // https://github.com/sindresorhus/electron-store
 // electron-store不再提供CommonJS导出
+// Requires Electron 30 or later.
 import Store from 'electron-store';
 // https://github.com/sindresorhus/electron-store/issues/212
 // 必须在主进程内调用静态方法initRenderer
@@ -84,6 +85,13 @@ app.whenReady().then(() => {
 
   ipcMain.on('showErrorBox', (event, arg) => {
     dialog.showErrorBox("提示", arg);
+  });
+
+  ipcMain.on('get-redux-persist-data', (event, arg) => {
+		// https://github.com/sindresorhus/electron-store
+    const userData = app.getPath("userData");
+
+		event.reply('reply-redux-persist-data', userData);
   });
 
   // 注册快捷键

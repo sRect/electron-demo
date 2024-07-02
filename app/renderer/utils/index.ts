@@ -29,3 +29,17 @@ export const showErrorBox = (message:string) => {
   // 向主进程发送
   ipcRenderer.send('showErrorBox', message);
 }
+
+export const getReduxPersistData = ():Promise<string> => {
+  return new Promise((resolve: (value: string) => void, reject: (value: Error) => void) => {
+    ipcRenderer.send('get-redux-persist-data', '');
+
+    ipcRenderer.on('reply-redux-persist-data', (event, arg: string) => {
+      if (arg) {
+        resolve(arg);
+      } else {
+        reject(new Error('获取redux持久化数据错误'));
+      }
+    });
+  });
+}
