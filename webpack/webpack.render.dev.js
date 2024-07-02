@@ -13,6 +13,7 @@ module.exports = {
     path: path.resolve(rootDir, 'dist'),
     filename: '[name].[fullhash:8].js',
     clean: true,
+		hashFunction: 'xxhash64',  // https://www.jianshu.com/p/edbad6875b7e
   },
   module: {
     rules: [

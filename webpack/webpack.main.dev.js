@@ -14,5 +14,6 @@ module.exports = {
     filename: 'electron.js',
     // webpack5.20.0+已经不需要使用clean-webpack-plugin了，output.clean可以清除输出目录
     clean: true,
+		hashFunction: 'xxhash64', // https://www.jianshu.com/p/edbad6875b7e
   },
 };

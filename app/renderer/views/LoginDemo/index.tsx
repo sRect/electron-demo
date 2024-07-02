@@ -28,7 +28,7 @@ const LoginDemo: React.FC = () => {
     const {username, password} = values;
 
     dispatch(actions.setUserName(username));
-    dispatch(actions.setLoginToken(`[username]${username}/[password]${password}`));
+    dispatch(actions.setLoginToken(`[username]:${username}/[password]:${password}`));
   };
 
   useEffect(() => {

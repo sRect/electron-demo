@@ -17,7 +17,7 @@ import {ActionReturnType} from "./actions";
 
 // export default LoginReducer(loginInitialState, {type: ""} as ActionReturnType);
 
-export default (state = loginInitialState, action: ActionReturnType):LoginStateTypes => {
+export default (state:Partial<LoginStateTypes> = loginInitialState, action: Partial<ActionReturnType>):Partial<LoginStateTypes> => {
     switch(action.type) {
       case types.SET_TOKEN:
         return produce(state, draft => {
@@ -25,7 +25,6 @@ export default (state = loginInitialState, action: ActionReturnType):LoginStateT
           draft.token = action.payload as string;
         });
       case types.SET_USERNAME:
-        console.log("enter==>", action);
         return produce(state, draft => {
           draft.username = action.payload as string;
         });
