@@ -13,6 +13,8 @@ const electronStore = new Store();
 
 const persistConfig = {
   key: 'root',
+  // https://github.com/rt2zz/redux-persist/blob/master/docs/migrations.md
+  version: 1,
   storage: createElectronStorage({electronStore}),
   whitelist: ["loginReducer"] // loginReducer会被缓存
 }

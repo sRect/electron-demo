@@ -4,12 +4,14 @@ import MyErrorBoundary from "@/components/MyErrorBoundary";
 
 import Home from '@/views/Home';
 import Foo from '@/views/Foo';
+import { TSRouter } from '@/types/router';
 
 const OpenBrowser = lazy(() => import('@/views/OpenBrowser'));
 const ResultPage = lazy(() => import('@/views/ResultPage'));
 const ReadFile = lazy(() => import('@/views/ReadFile'));
 const Todolist = lazy(() => import('@/views/Todolist'));
 const LoginDemo = lazy(() => import('@/views/LoginDemo'));
+const MyUpload = lazy(() => import('@/views/MyUpload'));
 
 // type RoutesTypes = {
 //   path: string;
@@ -18,7 +20,7 @@ const LoginDemo = lazy(() => import('@/views/LoginDemo'));
 // }
 
 // const routes:RoutesTypes[]= [
-const routes= [
+const routes: TSRouter.Router[] = [
   {
     path: '/',
     element: <Home />,
@@ -42,14 +44,16 @@ const routes= [
       },
       {
         path: '/loginReduxDemo',
-        exact: true,
         element: <LoginDemo />
       },
     ]
   },
   {
+    path: "/myupload",
+    element: <MyUpload />
+  },
+  {
     path: '/result/:code',
-    exact: true,
     element: <ResultPage />,
   },
   {

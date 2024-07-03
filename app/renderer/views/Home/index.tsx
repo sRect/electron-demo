@@ -3,23 +3,18 @@ import { Link, Outlet } from 'react-router-dom';
 
 const Home:React.FC = () => {
   return (
-    <div>
-      <Link to="/">回到首页</Link>
-      <br />
-      <Link to="/foo">goto foo</Link>
-      <br />
-      <Link to="/openBrowser">gotoOpenBrowser</Link>
-      <br />
-      <Link to="/readFile">gotoReadFile</Link>
-      <br />
-      <Link to="/todolist" >gotoTodolist</Link>
-      <br />
-      <Link to="/loginReduxDemo" >loginReduxDemo</Link>
-      <br />
-      <Link to="/result/404">404</Link>
-      <br />
-      <Link to="/abc">error page</Link>
-      <br />
+    <div className='w-full h-screen flex flex-col gap-[20px]'>
+      <div className='w-full flex flex-wrap items-center gap-[10px]'>
+        <Link to="/">回到首页</Link>
+        <Link to="/foo">goto foo</Link>
+        <Link to="/openBrowser">gotoOpenBrowser</Link>
+        <Link to="/readFile">gotoReadFile</Link>
+        <Link to="/todolist" >gotoTodolist</Link>
+        <Link to="/loginReduxDemo" >loginReduxDemo</Link>
+        <Link to="/result/404">404</Link>
+        <Link to="/abc">error page</Link>
+        <Link to="/myupload">my upload</Link>
+      </div>
 
       <Outlet />
     </div>

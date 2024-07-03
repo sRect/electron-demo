@@ -1,9 +1,9 @@
-const tailwindcss = require("tailwindcss");
+// const tailwindcss = require("tailwindcss");
 
 // https://www.npmjs.com/package/postcss-loader
 module.exports = {
-  plugins: [
-		tailwindcss("./tailwind.config.js"),
-		require('autoprefixer')
-	],
-};
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  }
+}
