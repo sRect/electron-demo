@@ -8,7 +8,10 @@ module.exports = {
   devtool: 'inline-source-map',
   // 编译为 Electron 渲染进程
   target: 'electron-renderer',
-  entry: path.resolve(rootDir, 'app/renderer/index.tsx'),
+  entry: {
+		index: path.resolve(rootDir, 'app/renderer/index.tsx'),
+		saveFile: path.resolve(rootDir, 'app/renderer/windowPages/SaveFile/index.tsx'),
+	},
   output: {
     path: path.resolve(rootDir, 'dist'),
     filename: '[name].[fullhash:8].js',
@@ -51,7 +54,14 @@ module.exports = {
       title: 'webpack5 + electron demo',
       filename: 'index.html',
       template: path.resolve(rootDir, 'app/renderer/index.html'),
+			chunks: ['index'],
     }),
+		new HtmlWebpackPlugin({
+			title: '保存文件窗口',
+      filename: 'saveFile.html',
+      template: path.resolve(rootDir, 'app/renderer/windowPages/SaveFile/saveFile.html'),
+			chunks: ['saveFile'],
+		}),
   ],
   devServer: {
     // contentBase: path.resolve(rootDir, "dist"),

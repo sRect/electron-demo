@@ -43,3 +43,35 @@ export const getReduxPersistData = ():Promise<string> => {
     });
   });
 }
+
+// 打开主进程文件路径选择框
+export const openMainProcessDialog = ():Promise<string> => {
+  return new Promise((resolve, reject) => {
+    ipcRenderer.send('changeSavePath', '');
+
+    ipcRenderer.on('confirmChangeSavePath', (event, arg: string | Error) => {
+      if (typeof arg === 'string') {
+        resolve(arg);
+      } else {
+        console.error(arg);
+        reject(new Error('自定义存储路径失败'));
+      }
+    });
+  });
+}
+
+// 打开主进程文件保存框
+export const openMainProcessSaveDialog = (data:object): Promise<void> => {
+  return new Promise((resole, reject) => {
+    ipcRenderer.send('showSaveDialog', data);
+
+    ipcRenderer.on('confirmSaveFile', (event, arg: string | Error) => {
+      if (typeof arg ==='string') {
+        arg ? resole() : reject(new Error('取消保存'));
+      } else {
+        console.error(arg);
+        reject(new Error('保存文件失败'));
+      }
+    });
+  })
+}

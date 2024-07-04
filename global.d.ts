@@ -13,3 +13,10 @@ declare module '*.jsx' {
   const MyErrorBoundary: React.ElementType; // 或者更具体的类型
   export default MyErrorBoundary;
 }
+
+type TSaveFileProps = {
+  fileName: string;
+  fileExtensions: string;
+  filePath: string;
+  arrayBuffer: ArrayBuffer;
+}

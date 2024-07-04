@@ -33,7 +33,7 @@ const MyUpload:React.FC = () => {
 
       <h3>选择文件并本地进行预览测试</h3>
 
-      <Upload onAfterChange={handleOnAfterChange} />
+      <Upload title="点击上传预览" onAfterChange={handleOnAfterChange} />
 
       {
         imgPath 

@@ -1,5 +1,5 @@
 import React, {memo, useRef} from "react";
-
+import { message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 
 type TInputEvent = {
@@ -8,6 +8,7 @@ type TInputEvent = {
 
 const Upload:React.FC<Partial<TSMyUpload.TInput>> = ({title="点击上传", multiple=false, onAfterChange=():void => {}}) => {
   const inputRef = useRef(null);
+  const [messageApi, contextHolder] = message.useMessage();
 
   const onChange = (e:TInputEvent):void => {
     console.log(e);
@@ -28,8 +29,10 @@ const Upload:React.FC<Partial<TSMyUpload.TInput>> = ({title="点击上传", mult
       });
   
       onAfterChange && onAfterChange(fileList);
+      messageApi.success("操作成功");
     } else {
-      console.log("fuck");
+      console.log("files is null");
+      messageApi.warning("请选择文件");
     }
   }
 
@@ -41,11 +44,14 @@ const Upload:React.FC<Partial<TSMyUpload.TInput>> = ({title="点击上传", mult
   }
 
   return (
-    <div className="flex items-center gap-[5px] px-[8px] py-[4px] cursor-pointer" onClick={beforeUpload}>
-      <UploadOutlined />
-      <span>{title}</span>
-      <input ref={inputRef} hidden type="file" accept="image/png, image/jpeg" multiple={multiple} onChange={onChange} />
-    </div>
+    <>
+      {contextHolder}
+      <div className="flex items-center gap-[5px] px-[8px] py-[4px] cursor-pointer" onClick={beforeUpload}>
+        <UploadOutlined />
+        <span>{title}</span>
+        <input ref={inputRef} hidden type="file" accept="image/png, image/jpeg" multiple={multiple} onChange={onChange} />
+      </div>
+    </>
   )
 }
 
