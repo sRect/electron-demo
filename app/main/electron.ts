@@ -1,9 +1,8 @@
-import { app, BrowserWindow, ipcMain, Menu, globalShortcut, dialog } from 'electron';
+import { app, BrowserWindow, Menu, globalShortcut } from 'electron';
 import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import path from 'path';
-import fs from 'fs/promises';
-import {Buffer} from "buffer";
 import customeMenu from './customMenu';
+import handleIpcMainListener from "./ipcMainListener";
 // const rootDir = process.cwd();
 
 // https://github.com/sindresorhus/electron-store
@@ -45,7 +44,7 @@ function createWindow() {
       nodeIntegration: true, // 注入node模块
       contextIsolation: false,
       // preload: path.join(rootDir, 'app/main/preload.js'),
-      devTools: true,
+      devTools: isDev(),
     },
   });
 
@@ -55,24 +54,23 @@ function createWindow() {
     height: 240,
     resizable: false,
     show: false, // 初始化时，隐藏窗口
+    frame: false,
     webPreferences: {
       nodeIntegration: true, // 注入node模块
       contextIsolation: false,
       // preload: path.join(rootDir, 'app/main/preload.js'),
-      devTools: true,
+      devTools: isDev(),
     },
   });
 
   saveFileWindow.uid = "saveFileWindow"; // 设置唯一窗口属性
 
-  // 自定义saveFileWindow的关闭事件
-  saveFileWindow.on('close', async (e) => {
-    saveFileWindow.hide(); // 隐藏窗口
-    e.preventDefault();
-    // e.returnValue = false;
-  });
-
-  const devtools = new BrowserWindow()
+  // // 自定义saveFileWindow的关闭事件
+  // saveFileWindow.on('close', async (e) => {
+  //   saveFileWindow.hide(); // 隐藏窗口
+  //   e.preventDefault();
+  //   // e.returnValue = false;
+  // });
 
   // mainWindow.loadURL("./index.html");
   // mainWindow.loadFile(path.join(__dirname, "./index.html"));
@@ -85,15 +83,19 @@ function createWindow() {
     isDev()
       ? saveFileWindow.loadURL(`http://127.0.0.1:7001/saveFile.html`)
       : saveFileWindow.loadURL(`file://${path.join(__dirname, '../dist/saveFile.html')}`);
+
+    // 打开开发工具
+    if (isDev()) {
+      const devtools = new BrowserWindow();
+      
+      mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
+      mainWindow.webContents.openDevTools({ mode: 'detach' });
+      
+    } else {
+      mainWindow.webContents.closeDevTools();
+    }
   } catch (error) {
     console.log(error);
-  }
-
-  // 打开开发工具
-  if (isDev()) {
-    mainWindow.webContents.setDevToolsWebContents(devtools.webContents);
-    mainWindow.webContents.openDevTools({ mode: 'detach' });
-    
   }
 
   return mainWindow;
@@ -117,89 +119,15 @@ app.whenReady().then(() => {
     if (process.platform !== 'darwin') app.quit();
   });
 
-  // 监听渲染进程发的消息并回复
-  ipcMain.on('get-root-path', (event, arg) => {
-    // 为什么要../
-    // 因为app.getAppPath获取到的是dist目录
-    const rootPath = path.join(app.getAppPath(), '../');
-    event.reply('reply-root-path', rootPath);
-  });
-
-  ipcMain.on('showErrorBox', (event, arg) => {
-    dialog.showErrorBox("提示", arg);
-  });
-
-  ipcMain.on('get-redux-persist-data', (event, arg) => {
-		// https://github.com/sindresorhus/electron-store
-    const userData = app.getPath("userData");
-
-		event.reply('reply-redux-persist-data', userData);
-  });
-
-  ipcMain.on("changeSavePath", (event) => {
-    if(saveFileWindow) {
-      dialog.showOpenDialog(saveFileWindow, { 
-        title: "选择保存路径",
-        defaultPath: "/Users/fangchaoqun/Desktop",
-        properties: ['openDirectory'] 
-      })
-        .then((res) => {
-          if (res.canceled) {
-            event.reply("confirmChangeSavePath", "");
-            return;
-          }
-          const { filePaths } = res;
-          event.reply("confirmChangeSavePath", filePaths[0]);
-        })
-        .catch(error => {
-          console.log(error);
-          event.reply("confirmChangeSavePath", error);
-        });
-    } else {
-      event.reply("confirmChangeSavePath", new Error("saveFileWindow不存在"));
-    }
-  });
-
-  ipcMain.on("showSaveDialog", (event, arg: TSaveFileProps) => {
-    if(saveFileWindow) {
-      dialog.showSaveDialog(saveFileWindow, {
-        title: "保存文件",
-        message: "保存文件到目标文件夹测试",
-        defaultPath: `${arg.filePath}/${arg.fileName}.${arg.fileExtensions}`,
-        filters: [  
-          { name: `${arg.fileName}`, extensions: [arg.fileExtensions] } // 替换为你的文件类型  
-        ]
-      })
-        .then(async res => {
-          if(res.canceled) {
-            event.reply("confirmSaveFile", "");
-            return;
-          }
-
-          const { filePath } = res;
-          await fs.writeFile(`${filePath}`, Buffer.from(arg.arrayBuffer)); // 注意：这里 fileData 应该是 Buffer 
-
-          event.reply("confirmSaveFile", filePath);
-          dialog.showMessageBox(saveFileWindow, {
-            title: "提示",
-            message: "保存成功",
-            type: "info"
-          });
-        })
-        .catch(error => {
-          console.log(error);
-          event.reply("confirmSaveFile", error);
-        });
-    } else {
-      event.reply("confirmSaveFile", new Error("saveFileWindow不存在"));
-    }
-  });
+  handleIpcMainListener(saveFileWindow);
 
   // 注册快捷键
   // if (process.env.NODE_ENV === 'production') {
   //   registryShortcut(mainWindow);
   // }
-  mainWindow && registryShortcut(mainWindow);
+  if (isDev()) {
+    mainWindow && registryShortcut(mainWindow);
+  }
 
   app.on('will-quit', () => {
     globalShortcut.unregisterAll();

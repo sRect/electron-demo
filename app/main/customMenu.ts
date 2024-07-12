@@ -221,7 +221,15 @@ const customeMenu: TMenuItem[] = [
           const saveFileWindow = allWindows.find(item => item.uid ==='saveFileWindow');
 
           if(saveFileWindow) {
-            saveFileWindow.show();
+            if(!saveFileWindow.isVisible()) {
+              saveFileWindow.show();
+              saveFileWindow.focus();
+            }
+
+            if(saveFileWindow.isMinimized()) {
+              saveFileWindow.restore();
+            }
+          
           }
         }
       },
