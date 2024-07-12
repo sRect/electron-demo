@@ -3,6 +3,7 @@ import installExtension, { REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electro
 import path from 'path';
 import fs from 'fs/promises';
 import {Buffer} from "buffer";
+import customeMenu from './customMenu';
 // const rootDir = process.cwd();
 
 // https://github.com/sindresorhus/electron-store
@@ -13,11 +14,15 @@ import Store from 'electron-store';
 // 必须在主进程内调用静态方法initRenderer
 Store.initRenderer();
 
+export interface MyBrowserWindow extends BrowserWindow {
+  uid?: string
+}
+
 function isDev() {
   return process.env.NODE_ENV === 'development';
 }
 
-let saveFileWindow: Electron.BrowserWindow;
+let saveFileWindow: Electron.BrowserWindow & MyBrowserWindow;
 
 // 快捷键注册
 function registryShortcut(mainWindow: any) {
@@ -49,12 +54,22 @@ function createWindow() {
     width: 720,
     height: 240,
     resizable: false,
+    show: false, // 初始化时，隐藏窗口
     webPreferences: {
       nodeIntegration: true, // 注入node模块
       contextIsolation: false,
       // preload: path.join(rootDir, 'app/main/preload.js'),
       devTools: true,
     },
+  });
+
+  saveFileWindow.uid = "saveFileWindow"; // 设置唯一窗口属性
+
+  // 自定义saveFileWindow的关闭事件
+  saveFileWindow.on('close', async (e) => {
+    saveFileWindow.hide(); // 隐藏窗口
+    e.preventDefault();
+    // e.returnValue = false;
   });
 
   const devtools = new BrowserWindow()
@@ -86,6 +101,10 @@ function createWindow() {
 
 app.whenReady().then(() => {
   const mainWindow = createWindow();
+  const myMenu = Menu.buildFromTemplate(customeMenu);
+
+  Menu.setApplicationMenu(myMenu);
+
   // 如果没有窗口打开则打开一个窗口 (macOS)
   app.on('activate', () => {
     if (!BrowserWindow.getAllWindows().length) {
